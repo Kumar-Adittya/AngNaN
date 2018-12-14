@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { environment } from '../../../environments/environment';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { User } from '@shared/models/user.model';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,14 @@ export class AuthService {
 
   private API_URL = environment.API_URL;
 
+  returnUrl: string;
+
   /**
    * Creates an instance of AuthService
    * @param api - HTTP service to call the APIS
+   * @param store - Store
    * */
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private store: Store<{ auth }>) {
   }
 
   /**
@@ -23,10 +27,14 @@ export class AuthService {
    * @param data - data to be stored;
    * @param keyName - name of the key in which data will be stored;
    */
-  private static setAuthToken(data: User, keyName: string): void {
-    const jsonData = JSON.stringify(data);
+  private static setAuthToken(data: string, keyName: string): void {
     // todo @AngularUniversalSupport
-    localStorage.setItem(keyName, jsonData);
+    localStorage.setItem(keyName, data);
+  }
+
+  static getAuthToken() {
+    // todo @AngularUniversalSupport
+    return localStorage.getItem('token');
   }
 
   /**
@@ -35,12 +43,12 @@ export class AuthService {
    * @param password - password of the user;
    * @returns user - User from the response of the API;
    */
-  login({email, password}) {
-    const params = {data: {'email': email, 'password': password}};
-    return this.api.post(`${this.API_URL}entity/ms.users/_/login`, params)
+  login({ username, password }) {
+    const params = { data: { 'username': username, 'password': password } };
+    return this.api.post(`${this.API_URL}login`, params)
       .pipe(
         map(user => {
-          AuthService.setAuthToken(user, 'user');
+          AuthService.setAuthToken(user.token, 'token');
           return user;
         })
       );

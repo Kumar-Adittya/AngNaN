@@ -1,22 +1,14 @@
-import * as fromProduct from './product/reducers/product.reducer';
-import { ProductState } from './product/reducers/product.state';
+import { AppState } from './app.state';
 
 import * as fromAuth from './auth/reducers/auth.reducer';
-import * as fromLayout from './layout/reducers/layout.reducers';
 import * as fromUser from './user/reducers/user.reducer';
 
 import { combineReducers, ActionReducer } from '@ngrx/store';
 import { environment } from '../environments/environment';
 
-interface AppState {
-  products: ProductState;
-}
-
 const reducers = {
-  products: fromProduct.ProductReducer,
   auth: fromAuth.AuthReducer,
-  user: fromUser.UserReducer,
-  layout: fromLayout.LayoutReducer,
+  user: fromUser.UserReducer
 };
 
 export const developmentReducer: ActionReducer<AppState> = combineReducers(reducers);

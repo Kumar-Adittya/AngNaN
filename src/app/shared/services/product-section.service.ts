@@ -18,21 +18,19 @@ export class ProductSectionService {
   constructor(private api: ApiService, private commonService: CommonService) {
   }
 
-
   /**
    * Call the Brands API.
-   * @returns slides - Slides from the response of the API;
    */
   getBrands(filters = null) {
-    return this.api.get(`${this.API_URL}entity/ms.brands`);
+    return this.api.get(`${this.API_URL}brands`);
   }
 
   getCollections(filters = null) {
-    return this.api.get(`${this.API_URL}entity/ms.collections`, {params: {q: JSON.stringify(filters)}});
+    return this.api.get(`${this.API_URL}collections`, { params: { filters: JSON.stringify(filters) } });
   }
 
   getProducts(filters = null) {
-    return this.api.get(`${this.API_URL}entity/ms.products`, {params: {filters: JSON.stringify(filters)}});
+    return this.api.get(`${this.API_URL}products`, { params: { filters: JSON.stringify(filters) } });
   }
 
 }

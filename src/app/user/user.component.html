@@ -1,0 +1,31 @@
+<section class="hero">
+  <div class="container" *ngIf="selectedSection">
+    <!-- Breadcrumbs -->
+    <ol class="breadcrumb justify-content-center">
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item active">Your {{selectedSection.title}}</li>
+    </ol>
+    <!-- Hero Content-->
+    <div class="hero-content pb-5 text-center">
+      <h1 class="hero-heading">{{selectedSection.title}}</h1>
+      <div class="row" *ngIf="selectedSection.description">
+        <div class="col-xl-8 offset-xl-2">
+          <p class="lead text-muted" [innerHTML]=selectedSection.description>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-xl-9">
+        <router-outlet></router-outlet>
+      </div>
+      <div class="col-xl-3 col-lg-4 mb-5">
+        <app-user-sidebar [sidebarSections]="sidebarSections"></app-user-sidebar>
+      </div>
+    </div>
+  </div>
+</section>
